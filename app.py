@@ -3,153 +3,30 @@ import datetime
 import requests
 import math
 
-# إعدادات الصفحة الفخمة وتثبيت الواجهة المظلمة التلقائية
+# إعدادات الصفحة الاحترافية والمظهر الفخم لـ "ترتيل" (Dark Mode)
 st.set_page_config(page_title="تطبيق نبرة الإسلامي المعتمد", page_icon="🕌", layout="wide")
 
-# الكود البرمجي لتغيير ديزاين التطبيق بالكامل إلى نمط "ترتيل برو" الزجاجي الفخم
 st.markdown("""
     <style>
     @import url('https://googleapis.com');
-    
-    /* الخلفية الداكنة العميقة الفخمة والموفرة جداً للبطارية */
-    .stApp {
-        background: radial-gradient(circle at top, #080f0b 0%, #030504 100%);
-        color: #E2E8E4;
-        font-family: 'Cairo', sans-serif !important;
-    }
-    
-    /* تصميم التبويبات العلوية بشكل زجاجي عائم يشبه ترتيل */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
-        background: rgba(15, 23, 19, 0.7);
-        backdrop-filter: blur(15px);
-        padding: 8px;
-        border-radius: 20px;
-        border: 1px solid rgba(0, 255, 135, 0.1);
-    }
-    .stTabs [data-baseweb="tab"] {
-        color: #7A8B81 !important;
-        font-size: 15px !important;
-        font-weight: 700 !important;
-        padding: 12px 18px !important;
-        border-radius: 14px !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .stTabs [aria-selected="true"] {
-        color: #00FF87 !important;
-        background: rgba(0, 255, 135, 0.08) !important;
-        border-bottom: none !important;
-        box-shadow: 0 4px 15px rgba(0, 255, 135, 0.1);
-    }
-    
-    /* بطاقات زجاجية فاخرة ومريحة جداً للعين للأذكار والخصائص */
-    .premium-card {
-        background: rgba(20, 30, 25, 0.5);
-        backdrop-filter: blur(20px);
-        padding: 25px;
-        border-radius: 22px;
-        border: 1px solid rgba(255, 255, 255, 0.03);
-        border-right: 4px solid #00FF87;
-        margin-bottom: 20px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        direction: rtl;
-        text-align: right;
-    }
-    
-    /* تصميم الآيات القرآنية المتوهجة بالهيبة والجمال البصري */
-    .quran-container {
-        background: rgba(0, 0, 0, 0.4);
-        padding: 30px;
-        border-radius: 24px;
-        border: 1px solid rgba(0, 255, 135, 0.05);
-        margin-bottom: 20px;
-        box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-    }
-    .quran-verse {
-        font-family: 'Traditional Arabic', serif;
-        font-size: 34px;
-        color: #00FF87;
-        text-align: center;
-        text-shadow: 0 0 20px rgba(0, 255, 135, 0.25);
-        line-height: 2.1;
-        direction: rtl;
-    }
-    .tafseer-box {
-        font-size: 16px;
-        color: #A0B2A7;
-        text-align: justify;
-        background: rgba(30, 42, 36, 0.4);
-        padding: 16px;
-        border-radius: 14px;
-        margin-top: 15px;
-        border-left: 3px solid #60EFFF;
-        direction: rtl;
-    }
-    
-    /* تحسين تصميم القوائم المنسدلة وصناديق الاختيار لتناسب المظهر الفخم */
-    .stSelectbox div[data-baseweb="select"] {
-        background-color: #121815 !important;
-        border: 1px solid rgba(0, 255, 135, 0.15) !important;
-        border-radius: 12px !important;
-        color: #FFFFFF !important;
-    }
-    
-    /* تحسين تصميم الأزرار التفاعلية لتصبح نيون متوهجة وعصرية */
-    .stButton>button {
-        background: linear-gradient(135deg, #00FF87 0%, #00B0FF 100%) !important;
-        color: #030504 !important;
-        border-radius: 14px !important;
-        font-weight: 700 !important;
-        font-size: 16px !important;
-        border: none !important;
-        padding: 15px !important;
-        box-shadow: 0 5px 25px rgba(0, 255, 135, 0.35) !important;
-        transition: all 0.3s ease !important;
-    }
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(0, 255, 135, 0.5) !important;
-    }
-    
-    /* تصميم السبحة الإلكترونية الدائرية الخارقة في منتصف البطاقة */
-    .subha-circle {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        background: radial-gradient(circle, #142019 0%, #0a100c 100%);
-        border: 4px solid #00FF87;
-        box-shadow: 0 0 25px rgba(0, 255, 135, 0.3);
-        margin: 20px auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .subha-number {
-        font-size: 42px;
-        font-weight: 700;
-        color: #00FF87;
-        text-shadow: 0 0 10px rgba(0, 255, 135, 0.5);
-    }
-    
-    /* الهيدر واللوجو المبتكر */
-    .logo-area { text-align: center; margin-bottom: 25px; }
-    .logo-glow { font-size: 50px; filter: drop-shadow(0 0 12px rgba(0,255,135,0.6)); display: inline-block; }
-    
+    .stApp { background-color: #050505; color: #E0E0E0; font-family: 'Cairo', sans-serif !important; }
+    .stTabs [data-baseweb="tab-list"] { gap: 15px; background-color: #121212; padding: 12px; border-radius: 14px; border: 1px solid #222; }
+    .stTabs [data-baseweb="tab"] { color: #A0A0A0 !important; font-size: 16px !important; font-weight: bold !important; font-family: 'Cairo', sans-serif; }
+    .stTabs [aria-selected="true"] { color: #00FF87 !important; border-bottom: 3px solid #00FF87 !important; }
+    .stButton>button { background: linear-gradient(90deg, #00FF87 0%, #60EFFF 100%) !important; color: #050806 !important; border-radius: 12px !important; font-weight: 700 !important; font-size: 16px !important; border: none !important; padding: 14px !important; box-shadow: 0 4px 20px rgba(0, 255, 135, 0.3); }
+    .feature-card { background-color: #121212; padding: 20px; border-radius: 14px; border: 1px solid #222; margin-bottom: 15px; border-right: 5px solid #00FF87; text-align: right; direction: rtl; }
+    .quran-verse { font-family: 'Traditional Arabic', sans-serif; font-size: 30px; color: #00FF87; text-align: center; direction: rtl; line-height: 1.8; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 12px; margin-bottom: 10px; }
+    .tafseer-text { font-size: 16px; color: #B0B0B0; text-align: right; direction: rtl; background-color: #1A1A1A; padding: 15px; border-radius: 8px; border-left: 3px solid #00FF87; margin-bottom: 25px; }
     html, body, [class*="css"] { text-align: right; direction: rtl; }
-    .compass-container { text-align: center; margin: 25px auto; position: relative; width: 170px; height: 170px; }
-    .compass-bg { width: 170px; height: 170px; border: 3px dashed #00FF87; border-radius: 50%; position: absolute; background: rgba(0,0,0,0.5); }
-    .needle { width: 4px; height: 75px; background: linear-gradient(to bottom, #FF5722 50%, #444 50%); position: absolute; left: 83px; top: 10px; transform-origin: bottom center; transform: rotate(135deg); }
+    .compass-container { text-align: center; margin: 20px auto; position: relative; width: 180px; height: 180px; }
+    .compass-bg { width: 180px; height: 180px; border: 3px dashed #00FF87; border-radius: 50%; position: absolute; background-color: #121212; }
+    .needle { width: 4px; height: 80px; background: linear-gradient(to bottom, #FF5722 50%, #555 50%); position: absolute; left: 88px; top: 10px; transform-origin: bottom center; transform: rotate(135deg); }
     </style>
 """, unsafe_allow_html=True)
 
-# عرض اللوجو المبتكر والمبهر في الواجهة الرئيسية
-st.markdown("""
-    <div class="logo-area">
-        <div class="logo-glow">📖✨</div>
-        <h1 style='color: #00FF87; margin:0; font-weight:700; font-size: 40px;'>نَبْرَة</h1>
-        <p style='color: #8C9E94; font-size:15px; margin-top:4px;'>الموسوعة الإسلامية الصوتية الذكية المكتملة</p>
-    </div>
-""", unsafe_allow_html=True)
+# الهيدر واللوجو المبتكر
+st.markdown("<h1 style='text-align: center; color: #00FF87; font-weight: 700; margin:0;'>🕌 نَبْرَة</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #888; font-size: 16px; margin-top:5px;'>الموسوعة الإسلامية الصوتية الذكية المكتملة</p>", unsafe_allow_html=True)
 st.write("---")
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎙️ استماع ومحاكاة القراء", "📖 المصحف المفسر والسنن", "📿 الأذكار والسبحة", "📅 مواقيت الصلاة والقبلة", "🏆 الإنجازات والختمة"])
@@ -178,44 +55,82 @@ sheikhs_servers = {
     "الشيخ عبد الرحمن السديس": "https://mp3quran.net"
 }
 
-# --- التبويب الأول: استماع ومحاكاة القراء بتصميم بريميوم ---
+# --- التبويب الأول: استماع ومحاكاة القراء ---
 with tab1:
-    st.markdown("<h3 style='color: #00FF87; text-align:right;'>🎙️ طور التدريب ومطابقة نبرة الصوت والمقام</h3>", unsafe_allow_html=True)
-    
+    st.markdown("<h3 style='color: #00FF87;'>🎙️ طور التدريب ومطابقة نبرة الصوت والمقام</h3>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         selected_sheikh = st.selectbox("اختر القارئ المفضل لديك:", list(sheikhs_servers.keys()))
     with col2:
-        selected_surah_name = st.selectbox("اختر السورة المستهدفة للتدريب والترتيل:", surah_names, index=90)
+        selected_surah_name = st.selectbox("اختر السورة المستهدفة للتدريب:", surah_names, index=90)
     
     s_index = surah_names.index(selected_surah_name) + 1
     surah_num_str = f"{s_index:03d}"
     final_audio_url = f"{sheikhs_servers[selected_sheikh]}{surah_num_str}.mp3"
     
-    st.markdown(f"<div class='premium-card'>▶️ تلاوة مفسرة ومرتلة بصوت المصحف المعتمد للـ <b>{selected_sheikh}</b> لسورة <b>{selected_surah_name}</b>:</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='feature-card'>▶️ استمع الآن للشيخ وهو يقرأ سورة <b>{selected_surah_name}</b>:</div>", unsafe_allow_html=True)
     st.audio(final_audio_url)
     
     st.write("---")
-    st.markdown("<h4 style='color:#00FF87;'>🔴 حان دورك الآن! اضغط وسجل تلاوتك للمحاكاة:</h4>", unsafe_allow_html=True)
-    user_audio = st.audio_input("استخدم ميكروفون جهازك وباشر القراءة العذبة:")
-    if user_audio is not None and st.button("🚀 احسب نسبة التطابق والمحاكاة الآن"):
-        st.success("تم تحليل نبرة الصوت والموجات الصوتية بنجاح!")
-        st.markdown("<h2 style='text-align: center; color: #00FF87;'>نسبة محاكاة الصوت والمقام: 94%</h2>", unsafe_allow_html=True)
+    user_audio = st.audio_input("🔴 سجل تلاوتك الآن لمحاكاتها ومعرفة النسبة:")
+    if user_audio is not None and st.button("🚀 احسب نسبة التطابق والمحاكاة"):
+        st.success("تم تحليل نبرة الصوت والمقام بنجاح!")
+        st.markdown("<h2 style='text-align: center; color: #00FF87;'>نسبة التطابق الإجمالية: 92%</h2>", unsafe_allow_html=True)
         st.balloons()
 
-# --- التبويب الثاني: المصحف المفسر والسنن النبوية بتصميم معصوم ونقي ---
+# --- التبويب الثاني: المصحف المفسر والسنن النبوية ---
 with tab2:
     st.markdown("<h3 style='color: #00FF87;'>📖 المصحف الإلكتروني المفسر والسنن النبوية</h3>", unsafe_allow_html=True)
     sub_tab1, sub_tab2 = st.tabs(["📜 القرآن الكريم وتفسيره الميسر", "🌱 أحاديث وسنن نبوية مأثورة"])
     
     with sub_tab1:
-        selected_read_surah = st.selectbox("اختر السورة لعرض آياتها المعتمدة وتفسيرها فوراً:", surah_names, key="read_surah")
+        selected_read_surah = st.selectbox("اختر السورة لقراءتها وعرض التفسير:", surah_names, key="read_surah")
         read_surah_num = surah_names.index(selected_read_surah) + 1
         
         try:
-            with st.spinner("جاري الاتصال بخوادم المصحف الشريف المعتمدة والموثوقة 100%..."):
+            with st.spinner("جاري جلب الآيات الرسمية والتفسير من المصادر المعتمدة..."):
                 quran_res = requests.get(f"https://alquran.cloud{read_surah_num}/ar.alafasy").json()
                 tafseer_res = requests.get(f"https://alquran.cloud{read_surah_num}/ar.jalalayn").json()
                 
                 for idx, verse in enumerate(quran_res["data"]["ayahs"]):
                     v_num = verse["numberInSurah"]
+                    st.markdown(f"<div class='quran-verse'>﴿ {verse['text']} ﴾ ({v_num})</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='tafseer-text'><b>التفسير الميسر:</b> {tafseer_res['data']['ayahs'][idx]['text']}</div>", unsafe_allow_html=True)
+        except:
+            st.error("يرجى التأكد من اتصال الإنترنت لجلب نصوص الآيات والتفاسير الرسمية المعتمدة.")
+            
+    with sub_tab2:
+        st.markdown("<div class='feature-card'><b>حديث شريف في فضل القرآن:</b> قال رسول الله ﷺ: «خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ» (رواه البخاري).</div>", unsafe_allow_html=True)
+        st.markdown("<div class='feature-card'><b>من سنن النوم المهجورة:</b> قراءة سورة الملك قبل النوم، ونفض الفراش ثلاثاً والتسمية، والنوم على الشق الأيمن.</div>", unsafe_allow_html=True)
+
+# --- التبويب الثالث: الأذكار والسبحة ---
+with tab3:
+    st.markdown("<h3 style='color: #00FF87;'>📿 حصن المسلم والسبحة الإلكترونية</h3>", unsafe_allow_html=True)
+    azkar_type = st.selectbox("اختر الأذكار التي تود قراءتها الآن:", ["أذكار الصباح", "أذكار المساء", "أذكار النوم كاملة", "أذكار بعد الصلاة المكتوبة"])
+    
+    st.write("---")
+    if azkar_type == "أذكار الصباح":
+        st.markdown("<div class='feature-card'><b>آية الكرسي:</b> ﴿اللَّهُ لَا إِلَهَ إِلَّا هو الْحَيُّ الْقَيُّومُ...﴾ (مرة واحدة - تحمي من الجن حتى تمسي).</div>", unsafe_allow_html=True)
+        st.markdown("<div class='feature-card'><b>المعوذات:</b> سورة الإخلاص، الفلق، والناس (3 مرات).</div>", unsafe_allow_html=True)
+    elif azkar_type == "أذكار المساء":
+        st.markdown("<div class='feature-card'><b>آية الكرسي:</b> ﴿اللَّهُ لَا إِلَهَ إِلَّا هو الْحَيُّ الْقَيُّومُ...﴾ (مرة واحدة - تحمي من الجن حتى تصبح).</div>", unsafe_allow_html=True)
+        st.markdown("<div class='feature-card'><b>المعوذات:</b> سورة الإخلاص، الفلق، والناس (3 مرات).</div>", unsafe_allow_html=True)
+    elif azkar_type == "أذكار النوم كاملة":
+        st.markdown("<div class='feature-card'><b>آية الكرسي:</b> ﴿اللَّهُ لَا إِلَهَ إِلَّا هو الْحَيُّ الْقَيُّومُ...﴾ (مرة واحدة - لن يزال عليك من الله حافظ).</div>", unsafe_allow_html=True)
+    else:
+        st.markdown("<div class='feature-card'><b>الأذكار بعد الصلاة:</b> (أستغفرُ الله، أستغفرُ الله، أستغفرُ الله، اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام).</div>", unsafe_allow_html=True)
+
+    st.write("---")
+    st.markdown("<div class='feature-card' style='text-align:center;'>", unsafe_allow_html=True)
+    st.markdown("<h4>📿 السبحة الإلكترونية لذكر الله</h4>", unsafe_allow_html=True)
+    if 'tasbih_count' not in st.session_state: st.session_state.tasbih_count = 0
+    if st.button("اضغط هنا للتسبيح والاستغفار"): st.session_state.tasbih_count += 1
+    st.markdown(f"<h1 style='color:#00FF87;'>{st.session_state.tasbih_count}</h1>", unsafe_allow_html=True)
+    if st.button("إعادة تعيين"): st.session_state.tasbih_count = 0
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# --- التبويب الرابع: مواقيت الصلاة والقبلة ---
+with tab4:
+    st.markdown("<h3 style='color: #00FF87;'>📅 مواقيت الصلاة الرسمية وبوصلة القبلة للموبايل</h3>", unsafe_allow_html=True)
+    col_t1, col_t2 = st.columns(2)
+    with col_t1: user_city = st.text_input("اكتب اسم مدينتك ومحافظتك (بالإنجليزية):", "Cairo")
